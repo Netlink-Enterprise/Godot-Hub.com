@@ -1,1 +1,2491 @@
+<!DOCTYPE html>
 
+<html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Godot Learning Hub | The Ultimate Game Development Platform</title> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> <script src="https://accounts.google.com/gsi/client" async defer></script> <style> :root { --primary: #a435f0; --primary-dark: #8e2de2; --secondary: #4a6baf; --dark: #1c1d1f; --dark-soft: #2d2f31; --light: #f8f9fa; --light-soft: #e0e0e0; --accent: #ff6b6b; --success: #4caf50; --warning: #ff9800; --text: #333; --text-light: #666; }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', 'Roboto', sans-serif;
+    }
+    
+    body {
+        background-color: var(--light);
+        color: var(--text);
+        line-height: 1.6;
+    }
+    
+    /* Top Navigation Bar */
+    .top-nav {
+        background: white;
+        padding: 0.5rem 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .top-nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 2rem;
+    }
+    
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+    }
+    
+    .logo i {
+        color: var(--primary);
+        font-size: 1.8rem;
+    }
+    
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+    }
+    
+    .nav-links a {
+        text-decoration: none;
+        color: var(--text);
+        font-weight: 500;
+        transition: color 0.3s ease;
+        position: relative;
+    }
+    
+    .nav-links a:hover {
+        color: var(--primary);
+    }
+    
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        transition: width 0.3s ease;
+    }
+    
+    .nav-links a:hover::after {
+        width: 100%;
+    }
+    
+    .auth-buttons {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+    
+    .auth-buttons .btn-login {
+        background: transparent;
+        border: 1px solid var(--primary);
+        color: var(--primary);
+    }
+    
+    .auth-buttons .btn-signup {
+        background: var(--primary);
+        color: white;
+    }
+    
+    .user-menu {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+    }
+    
+    .user-profile img {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    
+    .user-profile i {
+        font-size: 1.2rem;
+        color: var(--text-light);
+    }
+    
+    .cart-wishlist-icons {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .cart-wishlist-icons a {
+        color: var(--text);
+        font-size: 1.2rem;
+        position: relative;
+        cursor: pointer;
+    }
+    
+    .cart-wishlist-icons a .badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        font-size: 0.7rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Hero Section */
+    .hero {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        color: white;
+        padding: 4rem 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('https://godotengine.org/themes/godotengine/assets/img/backgrounds/2022-03-22-godot-4-0-beta-1-release-header.png') no-repeat center;
+        background-size: cover;
+        opacity: 0.15;
+    }
+    
+    .hero-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .hero-content {
+        z-index: 1;
+    }
+    
+    .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+    
+    .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.95;
+    }
+    
+    .hero-cta {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .hero-cta .btn {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+    }
+    
+    .hero-cta .btn-primary {
+        background: white;
+        color: var(--primary);
+        border: none;
+        font-weight: 600;
+    }
+    
+    .hero-cta .btn-secondary {
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+    }
+    
+    .hero-image {
+        position: relative;
+    }
+    
+    .hero-image img {
+        width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+    
+    .hero-stats {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 3rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .stat-item {
+        text-align: center;
+    }
+    
+    .stat-item h3 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-item p {
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+    
+    /* Categories Section */
+    .categories-section {
+        padding: 4rem 2rem;
+        background: white;
+    }
+    
+    .categories-container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    .categories-section h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--dark);
+    }
+    
+    .categories-section p {
+        text-align: center;
+        font-size: 1.1rem;
+        color: var(--text-light);
+        margin-bottom: 3rem;
+    }
+    
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .category-card {
+        background: white;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        border-color: var(--primary);
+    }
+    
+    .category-icon {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+    }
+    
+    .category-card h3 {
+        font-size: 1.1rem;
+        color: var(--dark);
+    }
+    
+    /* Course Section */
+    .section {
+        padding: 4rem 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .section-header h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--dark);
+    }
+    
+    .section-header p {
+        font-size: 1.1rem;
+        color: var(--text-light);
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .section-tabs {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+    }
+    
+    .tab-btn {
+        padding: 0.8rem 1.5rem;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .tab-btn.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+    
+    .tab-btn:hover {
+        border-color: var(--primary);
+    }
+    
+    /* Course Grid */
+    .course-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 2rem;
+    }
+    
+    .course-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .course-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .course-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .course-content {
+        padding: 1.5rem;
+    }
+    
+    .course-content h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+        color: var(--dark);
+    }
+    
+    .course-content p {
+        color: var(--text-light);
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .course-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .course-rating {
+        color: #ffc107;
+        font-size: 0.9rem;
+    }
+    
+    .course-rating i {
+        margin-right: 0.3rem;
+    }
+    
+    .course-price {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--dark);
+    }
+    
+    .course-price .old-price {
+        text-decoration: line-through;
+        color: #999;
+        font-size: 0.9rem;
+        margin-right: 0.5rem;
+    }
+    
+    .course-price .new-price {
+        color: var(--primary);
+    }
+    
+    .course-actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .course-actions .btn {
+        flex: 1;
+        padding: 0.7rem;
+        font-size: 0.9rem;
+    }
+    
+    .btn-add-to-cart {
+        background: var(--primary);
+        color: white;
+        border: none;
+    }
+    
+    .btn-wishlist {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid #ddd;
+    }
+    
+    .btn-wishlist i {
+        margin-right: 0.5rem;
+    }
+    
+    .btn-demo {
+        background: var(--success);
+        color: white;
+        border: none;
+    }
+    
+    /* Featured Course */
+    .featured-course {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 3rem;
+        border-radius: 15px;
+        margin: 2rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .featured-course::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('https://godotengine.org/themes/godotengine/assets/img/backgrounds/2022-03-22-godot-4-0-beta-1-release-header.png') no-repeat center;
+        background-size: cover;
+        opacity: 0.1;
+    }
+    
+    .featured-course-content {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .featured-course-image {
+        width: 300px;
+        height: 200px;
+        border-radius: 10px;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+    
+    .featured-course-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .featured-course-info {
+        flex: 1;
+    }
+    
+    .featured-course-info h3 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .featured-course-info p {
+        margin-bottom: 1.5rem;
+        opacity: 0.9;
+    }
+    
+    .featured-course-meta {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .featured-course-meta div {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .featured-course-meta i {
+        color: var(--accent);
+    }
+    
+    .featured-course-actions {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .featured-course-actions .btn {
+        padding: 0.8rem 1.5rem;
+    }
+    
+    /* Learning Paths Section */
+    .learning-paths-section {
+        padding: 4rem 2rem;
+        background: #f8f9fa;
+    }
+    
+    .learning-paths-container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    .learning-paths-section h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--dark);
+    }
+    
+    .learning-paths-section p {
+        text-align: center;
+        font-size: 1.1rem;
+        color: var(--text-light);
+        margin-bottom: 3rem;
+    }
+    
+    .learning-paths-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+    
+    .learning-path-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .learning-path-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .learning-path-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        color: var(--dark);
+    }
+    
+    .learning-path-card p {
+        color: var(--text-light);
+        margin-bottom: 1.5rem;
+    }
+    
+    .learning-path-steps {
+        list-style: none;
+    }
+    
+    .learning-path-steps li {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-light);
+    }
+    
+    .learning-path-steps li::before {
+        content: '✓';
+        color: var(--success);
+        font-weight: bold;
+    }
+    
+    .learning-path-actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 1rem;
+    }
+    
+    /* Instructor Section */
+    .instructor-section {
+        padding: 4rem 2rem;
+        background: white;
+    }
+    
+    .instructor-container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    .instructor-section h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--dark);
+    }
+    
+    .instructor-section p {
+        text-align: center;
+        font-size: 1.1rem;
+        color: var(--text-light);
+        margin-bottom: 3rem;
+    }
+    
+    .instructor-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+    
+    .instructor-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        border: 1px solid #eee;
+    }
+    
+    .instructor-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        border-color: var(--primary);
+    }
+    
+    .instructor-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin: 0 auto 1rem;
+        object-fit: cover;
+        border: 3px solid var(--primary);
+    }
+    
+    .instructor-card h3 {
+        margin-bottom: 0.5rem;
+        color: var(--dark);
+    }
+    
+    .instructor-card p {
+        color: var(--text-light);
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .instructor-social {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .instructor-social a {
+        color: var(--text-light);
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+    }
+    
+    .instructor-social a:hover {
+        color: var(--primary);
+    }
+    
+    /* Testimonials */
+    .testimonials-section {
+        padding: 4rem 2rem;
+        background: #f8f9fa;
+    }
+    
+    .testimonials-container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    .testimonials-section h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--dark);
+    }
+    
+    .testimonials-section p {
+        text-align: center;
+        font-size: 1.1rem;
+        color: var(--text-light);
+        margin-bottom: 3rem;
+    }
+    
+    .testimonial-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+    
+    .testimonial-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        position: relative;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+    
+    .testimonial-card::before {
+        content: '"';
+        font-size: 4rem;
+        color: var(--primary);
+        opacity: 0.2;
+        position: absolute;
+        top: -10px;
+        left: 10px;
+    }
+    
+    .testimonial-text {
+        font-style: italic;
+        margin-bottom: 1.5rem;
+        color: var(--text);
+        line-height: 1.8;
+    }
+    
+    .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .testimonial-author img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 2px solid var(--primary);
+    }
+    
+    .testimonial-author-info h4 {
+        color: var(--dark);
+        margin-bottom: 0.3rem;
+    }
+    
+    .testimonial-author-info p {
+        color: var(--text-light);
+        font-size: 0.9rem;
+    }
+    
+    /* Donation Section */
+    .donation-section {
+        padding: 4rem 2rem;
+        background: white;
+        text-align: center;
+    }
+    
+    .donation-container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    .donation-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--dark);
+    }
+    
+    .donation-section p {
+        font-size: 1.1rem;
+        color: var(--text-light);
+        max-width: 700px;
+        margin: 0 auto 2rem;
+    }
+    
+    .donation-options {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .donation-btn {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .donation-btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+    
+    /* Community Section */
+    .community-section {
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, var(--dark) 0%, var(--dark-soft) 100%);
+        color: white;
+    }
+    
+    .community-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center;
+    }
+    
+    .community-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .community-content p {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+    }
+    
+    .community-features {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .community-feature {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .community-feature i {
+        color: var(--primary);
+        font-size: 1.2rem;
+    }
+    
+    .community-image {
+        position: relative;
+    }
+    
+    .community-image img {
+        width: 100%;
+        border-radius: 12px;
+    }
+    
+    .join-community-btn {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+    }
+    
+    .join-community-btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+    
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(135deg, var(--dark), var(--dark-soft));
+        color: white;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+    
+    .cta-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .cta-section p {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    /* Footer */
+    footer {
+        background: var(--dark);
+        color: white;
+        padding: 3rem 2rem 1rem;
+    }
+    
+    .footer-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+    }
+    
+    .footer-column h3 {
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+    }
+    
+    .footer-column ul {
+        list-style: none;
+    }
+    
+    .footer-column ul li {
+        margin-bottom: 0.8rem;
+    }
+    
+    .footer-column ul li a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    
+    .footer-column ul li a:hover {
+        color: var(--primary);
+    }
+    
+    .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        margin-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .footer-bottom p {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.9rem;
+    }
+    
+    /* Buttons */
+    .btn {
+        display: inline-block;
+        padding: 0.8rem 1.5rem;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        border: none;
+        font-size: 1rem;
+    }
+    
+    .btn-primary {
+        background: var(--primary);
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(164, 53, 240, 0.3);
+    }
+    
+    .btn-secondary {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--text);
+    }
+    
+    .btn-secondary:hover {
+        background: var(--text);
+        color: white;
+    }
+    
+    .btn-outline {
+        background: transparent;
+        color: white;
+        border: 1px solid white;
+    }
+    
+    .btn-outline:hover {
+        background: white;
+        color: var(--dark);
+    }
+    
+    /* Google Sign-In Button */
+    .google-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        background: #4285F4;
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    
+    .google-btn:hover {
+        background: #3367D6;
+        transform: translateY(-2px);
+    }
+    
+    .google-btn i {
+        font-size: 1.1rem;
+    }
+    
+    /* Sidebars */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        right: -400px;
+        width: 400px;
+        height: 100%;
+        background: white;
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+        transition: right 0.3s ease;
+        z-index: 2000;
+        overflow-y: auto;
+    }
+    
+    .sidebar.active {
+        right: 0;
+    }
+    
+    .sidebar-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--primary);
+        color: white;
+    }
+    
+    .sidebar-header h3 {
+        font-size: 1.3rem;
+    }
+    
+    .sidebar-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: white;
+    }
+    
+    .sidebar-content {
+        padding: 1.5rem;
+    }
+    
+    .sidebar-item {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .sidebar-item:last-child {
+        border-bottom: none;
+    }
+    
+    .sidebar-item img {
+        width: 80px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    
+    .sidebar-item-info {
+        flex: 1;
+    }
+    
+    .sidebar-item-info h4 {
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .sidebar-item-info p {
+        font-size: 0.9rem;
+        color: var(--text-light);
+    }
+    
+    .sidebar-item-price {
+        font-weight: 600;
+        color: var(--primary);
+    }
+    
+    .sidebar-footer {
+        padding: 1.5rem;
+        border-top: 1px solid #eee;
+        text-align: center;
+    }
+    
+    .sidebar-footer .btn {
+        width: 100%;
+    }
+    
+    /* Overlay */
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1500;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    /* Modals */
+    .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.8);
+        width: 80%;
+        max-width: 800px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        z-index: 3000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .modal.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    
+    .modal-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .modal-header h3 {
+        font-size: 1.3rem;
+    }
+    
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #666;
+    }
+    
+    .modal-body {
+        padding: 1.5rem;
+    }
+    
+    .modal-body iframe {
+        width: 100%;
+        height: 400px;
+        border: none;
+        border-radius: 8px;
+    }
+    
+    /* Progress Tracker */
+    .progress-tracker {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        margin: 2rem 0;
+    }
+    
+    .progress-tracker h3 {
+        margin-bottom: 1.5rem;
+        color: var(--dark);
+    }
+    
+    .progress-steps {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+    }
+    
+    .progress-steps::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: #eee;
+        z-index: 1;
+    }
+    
+    .progress-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .progress-step-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #eee;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+        color: #666;
+        font-weight: bold;
+    }
+    
+    .progress-step.active .progress-step-icon {
+        background: var(--primary);
+        color: white;
+    }
+    
+    .progress-step.completed .progress-step-icon {
+        background: var(--success);
+        color: white;
+    }
+    
+    .progress-step p {
+        font-size: 0.9rem;
+        color: var(--text-light);
+    }
+    
+    /* Achievements Section */
+    .achievements-section {
+        padding: 4rem 2rem;
+        background: white;
+    }
+    
+    .achievements-container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    .achievements-section h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--dark);
+    }
+    
+    .achievements-section p {
+        text-align: center;
+        font-size: 1.1rem;
+        color: var(--text-light);
+        margin-bottom: 3rem;
+    }
+    
+    .achievements-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+    
+    .achievement-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid #eee;
+    }
+    
+    .achievement-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1rem;
+        background: var(--primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+    }
+    
+    .achievement-card h3 {
+        margin-bottom: 0.5rem;
+        color: var(--dark);
+    }
+    
+    .achievement-card p {
+        color: var(--text-light);
+        font-size: 0.9rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+        }
+        
+        .hero-container {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+        
+        .hero-stats {
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .featured-course-content {
+            flex-direction: column;
+        }
+        
+        .featured-course-image {
+            width: 100%;
+            height: 250px;
+        }
+        
+        .course-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .sidebar {
+            width: 100%;
+            right: -100%;
+        }
+        
+        .donation-options {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .community-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .progress-steps {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .progress-steps::before {
+            display: none;
+        }
+    }
+</style>
+
+</head> <body> <!-- Top Navigation --> <nav class="top-nav"> <div class="top-nav-container"> <div class="logo"> <i class="fas fa-gamepad"></i> <span>Godot Hub</span> </div> <div class="nav-links"> <a href="#">Home</a> <a href="#courses">Courses</a> <a href="#learning-paths">Learning Paths</a> <a href="#instructors">Instructors</a> <a href="#community">Community</a> <a href="#achievements">Achievements</a> <a href="#testimonials">Testimonials</a> <a href="#donate">Donate</a> </div> <div class="auth-buttons"> <div class="user-menu"> <div class="user-profile" id="userProfile"> <i class="far fa-user-circle"></i> </div> <div class="cart-wishlist-icons"> <a href="#" id="wishlistToggle"><i class="far fa-heart"></i><span class="badge" id="wishlistCount">0</span></a> <a href="#" id="cartToggle"><i class="fas fa-shopping-cart"></i><span class="badge" id="cartCount">0</span></a> </div> </div> </div> </div> </nav>
+
+<!-- Google Sign-In -->
+<div id="g_id_onload" data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com" data-context="signin" data-ux_mode="popup" data-callback="handleGoogleSignIn" data-auto_prompt="false">
+</div>
+
+<!-- Login Modal -->
+<div class="modal" id="loginModal">
+    <div class="modal-header">
+        <h3>Log In</h3>
+        <button class="modal-close" id="loginModalClose">&times;</button>
+    </div>
+    <div class="modal-body">
+        <button class="google-btn" id="googleLoginBtn">
+            <i class="fab fa-google"></i>
+            Continue with Google
+        </button>
+    </div>
+</div>
+
+<!-- Signup Modal -->
+<div class="modal" id="signupModal">
+    <div class="modal-header">
+        <h3>Sign Up</h3>
+        <button class="modal-close" id="signupModalClose">&times;</button>
+    </div>
+    <div class="modal-body">
+        <button class="google-btn" id="googleSignupBtn">
+            <i class="fab fa-google"></i>
+            Continue with Google
+        </button>
+    </div>
+</div>
+
+<!-- Demo Modal -->
+<div class="modal" id="demoModal">
+    <div class="modal-header">
+        <h3>Course Demo</h3>
+        <button class="modal-close" id="demoModalClose">&times;</button>
+    </div>
+    <div class="modal-body">
+        <iframe id="demoVideo" src="" allowfullscreen></iframe>
+    </div>
+</div>
+
+<!-- Cart Sidebar -->
+<div class="sidebar" id="cartSidebar">
+    <div class="sidebar-header">
+        <h3>Your Cart</h3>
+        <button class="sidebar-close" id="cartClose">&times;</button>
+    </div>
+    <div class="sidebar-content" id="cartContent">
+        <!-- Cart items will be added here dynamically -->
+    </div>
+    <div class="sidebar-footer">
+        <p>Total: $<span id="cartTotal">0.00</span></p>
+        <button class="btn btn-primary" id="checkoutBtn">Checkout</button>
+    </div>
+</div>
+
+<!-- Wishlist Sidebar -->
+<div class="sidebar" id="wishlistSidebar">
+    <div class="sidebar-header">
+        <h3>Your Wishlist</h3>
+        <button class="sidebar-close" id="wishlistClose">&times;</button>
+    </div>
+    <div class="sidebar-content" id="wishlistContent">
+        <!-- Wishlist items will be added here dynamically -->
+    </div>
+</div>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-content">
+            <h1>Master Game Development with Godot</h1>
+            <p>Learn from industry experts and create stunning games with the world's most flexible game engine. Join thousands of successful developers.</p>
+            <div class="hero-cta">
+                <a href="#courses" class="btn btn-primary">Explore Courses</a>
+                <a href="#learning-paths" class="btn btn-secondary">View Learning Paths</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://img.youtube.com/vi/Mc13Z2gboEk/maxresdefault.jpg" alt="Godot Game Development">
+        </div>
+    </div>
+    <div class="hero-stats">
+        <div class="stat-item">
+            <h3>10K+</h3>
+            <p>Active Students</p>
+        </div>
+        <div class="stat-item">
+            <h3>50+</h3>
+            <p>Video Lessons</p>
+        </div>
+        <div class="stat-item">
+            <h3>2</h3>
+            <p>Expert Instructors</p>
+        </div>
+        <div class="stat-item">
+            <h3>4.9/5</h3>
+            <p>Average Rating</p>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="categories-section">
+    <div class="categories-container">
+        <h2>Browse by Category</h2>
+        <p>Find the perfect course for your learning needs in our diverse range of categories.</p>
+        <div class="categories-grid">
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h3>2D Game Development</h3>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-cube"></i>
+                </div>
+                <h3>3D Game Development</h3>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>GDScript</h3>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <h3>UI/UX Design</h3>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <h3>Audio & Music</h3>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Mobile Games</h3>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Courses Section -->
+<section class="section" id="courses">
+    <div class="section-header">
+        <h2>Our Godot Courses</h2>
+        <p>Choose from our comprehensive library of Godot courses, designed for all skill levels. From beginner to advanced, we've got you covered.</p>
+    </div>
+    
+    <div class="section-tabs">
+        <button class="tab-btn active">All Courses</button>
+        <button class="tab-btn">Beginner</button>
+        <button class="tab-btn">Intermediate</button>
+        <button class="tab-btn">Advanced</button>
+        <button class="tab-btn">Free</button>
+        <button class="tab-btn">Paid</button>
+    </div>
+    
+    <div class="course-grid">
+        <!-- Course 1 -->
+        <div class="course-card" data-video-id="Mc13Z2gboEk" data-price="89.99" data-title="Godot 4.0: The Complete Beginner's Course">
+            <img src="https://img.youtube.com/vi/Mc13Z2gboEk/maxresdefault.jpg" alt="Godot 4.0 Beginner Course" class="course-image">
+            <div class="course-content">
+                <h3>Godot 4.0: The Complete Beginner's Course</h3>
+                <p>Learn Godot from scratch and create your first 2D game with this comprehensive beginner's course.</p>
+                <div class="course-meta">
+                    <div class="course-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>4.8 (1,234)</span>
+                    </div>
+                    <div class="course-price">
+                        <span class="old-price">$129.99</span>
+                        <span class="new-price">$89.99</span>
+                    </div>
+                </div>
+                <div class="course-actions">
+                    <button class="btn btn-add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+                    <button class="btn btn-wishlist" onclick="addToWishlist(this)">
+                        <i class="far fa-heart"></i> Wishlist
+                    </button>
+                    <button class="btn btn-demo" onclick="showDemo(this)">Demo</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Course 2 -->
+        <div class="course-card" data-video-id="3RpXBlQ6H6o" data-price="99.99" data-title="2D Game Development in Godot 4.0">
+            <img src="https://img.youtube.com/vi/3RpXBlQ6H6o/maxresdefault.jpg" alt="2D Game Development" class="course-image">
+            <div class="course-content">
+                <h3>2D Game Development in Godot 4.0</h3>
+                <p>Master 2D game development with Godot's powerful tools and create stunning platformers and RPGs.</p>
+                <div class="course-meta">
+                    <div class="course-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span>4.9 (872)</span>
+                    </div>
+                    <div class="course-price">
+                        <span class="new-price">$99.99</span>
+                    </div>
+                </div>
+                <div class="course-actions">
+                    <button class="btn btn-add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+                    <button class="btn btn-wishlist" onclick="addToWishlist(this)">
+                        <i class="far fa-heart"></i> Wishlist
+                    </button>
+                    <button class="btn btn-demo" onclick="showDemo(this)">Demo</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Course 3 -->
+        <div class="course-card" data-video-id="6q2yM7C43uI" data-price="79.99" data-title="GDScript: From Zero to Hero">
+            <img src="https://img.youtube.com/vi/6q2yM7C43uI/maxresdefault.jpg" alt="GDScript Mastery" class="course-image">
+            <div class="course-content">
+                <h3>GDScript: From Zero to Hero</h3>
+                <p>Become a GDScript expert and unlock the full potential of Godot's scripting language.</p>
+                <div class="course-meta">
+                    <div class="course-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>4.7 (654)</span>
+                    </div>
+                    <div class="course-price">
+                        <span class="new-price">$79.99</span>
+                    </div>
+                </div>
+                <div class="course-actions">
+                    <button class="btn btn-add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+                    <button class="btn btn-wishlist" onclick="addToWishlist(this)">
+                        <i class="far fa-heart"></i> Wishlist
+                    </button>
+                    <button class="btn btn-demo" onclick="showDemo(this)">Demo</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Course 4 -->
+        <div class="course-card" data-video-id="Kn1QYc2D23o" data-price="109.99" data-title="3D Game Development in Godot 4.0">
+            <img src="https://img.youtube.com/vi/Kn1QYc2D23o/maxresdefault.jpg" alt="3D Game Development" class="course-image">
+            <div class="course-content">
+                <h3>3D Game Development in Godot 4.0</h3>
+                <p>Dive into 3D game development with Godot and create immersive 3D worlds and characters.</p>
+                <div class="course-meta">
+                    <div class="course-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <span>4.6 (432)</span>
+                    </div>
+                    <div class="course-price">
+                        <span class="old-price">$149.99</span>
+                        <span class="new-price">$109.99</span>
+                    </div>
+                </div>
+                <div class="course-actions">
+                    <button class="btn btn-add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+                    <button class="btn btn-wishlist" onclick="addToWishlist(this)">
+                        <i class="far fa-heart"></i> Wishlist
+                    </button>
+                    <button class="btn btn-demo" onclick="showDemo(this)">Demo</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Course 5 -->
+        <div class="course-card" data-video-id="9Xy7ZsX0-4E" data-price="69.99" data-title="UI Design for Godot Games">
+            <img src="https://img.youtube.com/vi/9Xy7ZsX0-4E/maxresdefault.jpg" alt="UI Design in Godot" class="course-image">
+            <div class="course-content">
+                <h3>UI Design for Godot Games</h3>
+                <p>Create beautiful and functional user interfaces for your Godot games with this specialized course.</p>
+                <div class="course-meta">
+                    <div class="course-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span>4.9 (321)</span>
+                    </div>
+                    <div class="course-price">
+                        <span class="new-price">$69.99</span>
+                    </div>
+                </div>
+                <div class="course-actions">
+                    <button class="btn btn-add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+                    <button class="btn btn-wishlist" onclick="addToWishlist(this)">
+                        <i class="far fa-heart"></i> Wishlist
+                    </button>
+                    <button class="btn btn-demo" onclick="showDemo(this)">Demo</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Course 6 -->
+        <div class="course-card" data-video-id="1qx5I3RQ5Q4" data-price="59.99" data-title="Create a Platformer Game in Godot">
+            <img src="https://img.youtube.com/vi/1qx5I3RQ5Q4/maxresdefault.jpg" alt="Godot Platformer" class="course-image">
+            <div class="course-content">
+                <h3>Create a Platformer Game in Godot</h3>
+                <p>Step-by-step guide to building a complete platformer game from scratch using Godot 4.0.</p>
+                <div class="course-meta">
+                    <div class="course-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>4.8 (789)</span>
+                    </div>
+                    <div class="course-price">
+                        <span class="new-price">$59.99</span>
+                    </div>
+                </div>
+                <div class="course-actions">
+                    <button class="btn btn-add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+                    <button class="btn btn-wishlist" onclick="addToWishlist(this)">
+                        <i class="far fa-heart"></i> Wishlist
+                    </button>
+                    <button class="btn btn-demo" onclick="showDemo(this)">Demo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Featured Course -->
+    <div class="featured-course">
+        <div class="featured-course-content">
+            <div class="featured-course-image">
+                <img src="https://img.youtube.com/vi/Mc13Z2gboEk/maxresdefault.jpg" alt="Featured Course">
+            </div>
+            <div class="featured-course-info">
+                <h3>The Ultimate Godot 4.0 Masterclass</h3>
+                <p>This comprehensive course covers everything from the basics to advanced techniques in Godot 4.0. With over 50 hours of content, you'll learn to create professional-quality games and publish them on multiple platforms.</p>
+                <div class="featured-course-meta">
+                    <div>
+                        <i class="fas fa-clock"></i>
+                        <span>50+ Hours</span>
+                    </div>
+                    <div>
+                        <i class="fas fa-play-circle"></i>
+                        <span>200+ Lectures</span>
+                    </div>
+                    <div>
+                        <i class="fas fa-users"></i>
+                        <span>5,000+ Students</span>
+                    </div>
+                    <div>
+                        <i class="fas fa-star"></i>
+                        <span>4.9 Rating</span>
+                    </div>
+                </div>
+                <div class="featured-course-actions">
+                    <button class="btn btn-primary" onclick="addFeaturedToCart()">Add to Cart - $89.99</button>
+                    <button class="btn btn-outline" onclick="showFeaturedDemo()">Watch Demo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Learning Paths Section -->
+<section class="learning-paths-section" id="learning-paths">
+    <div class="learning-paths-container">
+        <h2>Learning Paths</h2>
+        <p>Structured learning paths to guide you from beginner to expert in Godot game development.</p>
+        <div class="learning-paths-grid">
+            <div class="learning-path-card">
+                <h3>Beginner to Intermediate</h3>
+                <p>Start with the basics and progress to creating your first complete game.</p>
+                <ul class="learning-path-steps">
+                    <li>Introduction to Godot</li>
+                    <li>GDScript Fundamentals</li>
+                    <li>2D Game Basics</li>
+                    <li>Creating Your First Game</li>
+                </ul>
+                <div class="learning-path-actions">
+                    <button class="btn btn-primary">Start Path</button>
+                    <button class="btn btn-secondary">View Details</button>
+                </div>
+            </div>
+            <div class="learning-path-card">
+                <h3>Intermediate to Advanced</h3>
+                <p>Take your skills to the next level with advanced techniques and best practices.</p>
+                <ul class="learning-path-steps">
+                    <li>Advanced GDScript</li>
+                    <li>3D Game Development</li>
+                    <li>Shaders and Effects</li>
+                    <li>Optimization Techniques</li>
+                </ul>
+                <div class="learning-path-actions">
+                    <button class="btn btn-primary">Start Path</button>
+                    <button class="btn btn-secondary">View Details</button>
+                </div>
+            </div>
+            <div class="learning-path-card">
+                <h3>UI/UX Specialist</h3>
+                <p>Master the art of creating beautiful and functional user interfaces.</p>
+                <ul class="learning-path-steps">
+                    <li>UI Design Principles</li>
+                    <li>Control Nodes</li>
+                    <li>Theming and Styling</li>
+                    <li>Advanced UI Techniques</li>
+                </ul>
+                <div class="learning-path-actions">
+                    <button class="btn btn-primary">Start Path</button>
+                    <button class="btn btn-secondary">View Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Progress Tracker Section -->
+<section class="section">
+    <div class="progress-tracker">
+        <h3>Your Learning Progress</h3>
+        <div class="progress-steps">
+            <div class="progress-step active">
+                <div class="progress-step-icon">1</div>
+                <p>Beginner</p>
+            </div>
+            <div class="progress-step">
+                <div class="progress-step-icon">2</div>
+                <p>Intermediate</p>
+            </div>
+            <div class="progress-step">
+                <div class="progress-step-icon">3</div>
+                <p>Advanced</p>
+            </div>
+            <div class="progress-step">
+                <div class="progress-step-icon">4</div>
+                <p>Expert</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Instructors Section -->
+<section class="instructor-section" id="instructors">
+    <div class="instructor-container">
+        <h2>Meet Our Instructors</h2>
+        <p>Learn from experienced game developers who are passionate about teaching and sharing their knowledge.</p>
+        <div class="instructor-grid">
+            <div class="instructor-card">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Manav Bisht" class="instructor-image">
+                <h3>Manav Bisht</h3>
+                <p>Founder & Lead Instructor</p>
+                <div class="instructor-social">
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="instructor-card">
+                <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="Devansh Verma" class="instructor-image">
+                <h3>Devansh Verma</h3>
+                <p>Co-Founder & Senior Instructor</p>
+                <div class="instructor-social">
+                    <a href="#"><i class="fab fa-artstation"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Achievements Section -->
+<section class="achievements-section" id="achievements">
+    <div class="achievements-container">
+        <h2>Your Achievements</h2>
+        <p>Earn badges and certificates as you complete courses and reach milestones.</p>
+        <div class="achievements-grid">
+            <div class="achievement-card">
+                <div class="achievement-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h3>First Course Completed</h3>
+                <p>You completed your first Godot course!</p>
+            </div>
+            <div class="achievement-card">
+                <div class="achievement-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>5-Star Review</h3>
+                <p>You received a 5-star rating on your game!</p>
+            </div>
+            <div class="achievement-card">
+                <div class="achievement-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h3>Game Published</h3>
+                <p>You published your first game!</p>
+            </div>
+            <div class="achievement-card">
+                <div class="achievement-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <h3>Certified Developer</h3>
+                <p>You earned your Godot certification!</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Community Section -->
+<section class="community-section" id="community">
+    <div class="community-container">
+        <div class="community-content">
+            <h2>Join Our Community</h2>
+            <p>Connect with fellow learners, share your projects, and get help from our supportive community.</p>
+            <div class="community-features">
+                <div class="community-feature">
+                    <i class="fas fa-users"></i>
+                    <span>Connect with thousands of learners</span>
+                </div>
+                <div class="community-feature">
+                    <i class="fas fa-comments"></i>
+                    <span>Get help and share knowledge</span>
+                </div>
+                <div class="community-feature">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Showcase your projects</span>
+                </div>
+                <div class="community-feature">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Participate in events and challenges</span>
+                </div>
+            </div>
+            <button class="join-community-btn">Join Community</button>
+        </div>
+        <div class="community-image">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Community">
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials-section" id="testimonials">
+    <div class="testimonials-container">
+        <h2>What Our Students Say</h2>
+        <p>Don't just take our word for it. Here's what our students have to say about our courses.</p>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">This course completely changed my approach to game development. The instructor's explanations are clear, and the projects are engaging. I've already published my first game on itch.io!</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Alex Johnson">
+                    <div class="testimonial-author-info">
+                        <h4>Alex Johnson</h4>
+                        <p>Indie Game Developer</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">I've tried several Godot courses, but this one stands out. The content is well-structured, and the instructor is very responsive to questions. Highly recommended!</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Miller">
+                    <div class="testimonial-author-info">
+                        <h4>Sarah Miller</h4>
+                        <p>Game Design Student</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">The best investment I've made in my game development journey. The course covers everything from the basics to advanced topics, and the community is very supportive.</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Michael Chen">
+                    <div class="testimonial-author-info">
+                        <h4>Michael Chen</h4>
+                        <p>Hobbyist Developer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Donation Section -->
+<section class="donation-section" id="donate">
+    <div class="donation-container">
+        <h2>Support Our Mission</h2>
+        <p>Help us continue creating high-quality Godot tutorials and resources. Your donation makes a difference!</p>
+        <div class="donation-options">
+            <button class="donation-btn" onclick="donate(5)">Donate $5</button>
+            <button class="donation-btn" onclick="donate(10)">Donate $10</button>
+            <button class="donation-btn" onclick="donate(20)">Donate $20</button>
+            <button class="donation-btn" onclick="donate(50)">Donate $50</button>
+            <button class="donation-btn" onclick="showCustomDonation()">Custom Amount</button>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section" id="contact">
+    <h2>Ready to Start Your Game Development Journey?</h2>
+    <p>Join thousands of students who have already started learning Godot with our comprehensive courses.</p>
+    <div class="cta-buttons">
+        <a href="#courses" class="btn btn-primary">Browse Courses</a>
+        <a href="#learning-paths" class="btn btn-outline">View Learning Paths</a>
+        <a href="#donate" class="btn btn-outline">Support Us</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>Godot Hub</h3>
+            <p>Your ultimate destination for learning Godot game development. Create, learn, and succeed with us.</p>
+        </div>
+        
+        <div class="footer-column">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#courses">Courses</a></li>
+                <li><a href="#learning-paths">Learning Paths</a></li>
+                <li><a href="#instructors">Instructors</a></li>
+                <li><a href="#community">Community</a></li>
+                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#donate">Donate</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-column">
+            <h3>Support</h3>
+            <ul>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Help Center</a></li>
+                <li><a href="#">Community</a></li>
+                <li><a href="#">Documentation</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-column">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Refund Policy</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-column">
+            <h3>Connect With Us</h3>
+            <div class="social-links" style="justify-content: flex-start; display: flex; gap: 1rem;">
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-discord"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-reddit"></i></a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>© 2026 Godot Hub. All rights reserved. Made with ❤️ and Godot</p>
+    </div>
+</footer>
+
+<script>
+    // Global variables
+    let cart = [];
+    let wishlist = [];
+    let currentUser = null;
+    
+    // DOM Elements
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const userProfile = document.getElementById('userProfile');
+    const loginModal = document.getElementById('loginModal');
+    const signupModal = document.getElementById('signupModal');
+    const loginModalClose = document.getElementById('loginModalClose');
+    const signupModalClose = document.getElementById('signupModalClose');
+    const googleLoginBtn = document.getElementById('googleLoginBtn');
+    const googleSignupBtn = document.getElementById('googleSignupBtn');
+    const cartToggle = document.getElementById('cartToggle');
+    const wishlistToggle = document.getElementById('wishlistToggle');
+    const cartSidebar = document.getElementById('cartSidebar');
+    const wishlistSidebar = document.getElementById('wishlistSidebar');
+    const cartClose = document.getElementById('cartClose');
+    const wishlistClose = document.getElementById('wishlistClose');
+    const overlay = document.getElementById('overlay');
+    const demoModal = document.getElementById('demoModal');
+    const demoModalClose = document.getElementById('demoModalClose');
+    const demoVideo = document.getElementById('demoVideo');
+    const cartContent = document.getElementById('cartContent');
+    const wishlistContent = document.getElementById('wishlistContent');
+    const cartCount = document.getElementById('cartCount');
+    const wishlistCount = document.getElementById('wishlistCount');
+    const cartTotal = document.getElementById('cartTotal');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    
+    // Initialize Google Sign-In
+    function handleGoogleSignIn(response) {
+        const profile = response.getBasicProfile();
+        currentUser = {
+            id: profile.getId(),
+            name: profile.getName(),
+            email: profile.getEmail(),
+            image: profile.getImageUrl()
+        };
+        
+        // Close modals
+        loginModal.classList.remove('active');
+        signupModal.classList.remove('active');
+        overlay.classList.remove('active');
+        
+        // Update UI
+        updateAuthUI();
+        
+        // Show welcome message
+        alert(`Welcome, ${currentUser.name}! You are now signed in.`);
+    }
+    
+    // Update authentication UI
+    function updateAuthUI() {
+        if (currentUser) {
+            userProfile.innerHTML = `<img src="${currentUser.image}" alt="${currentUser.name}">`;
+            if (loginBtn) loginBtn.style.display = 'none';
+            if (signupBtn) signupBtn.style.display = 'none';
+        } else {
+            userProfile.innerHTML = '<i class="far fa-user-circle"></i>';
+            if (loginBtn) loginBtn.style.display = 'inline-block';
+            if (signupBtn) signupBtn.style.display = 'inline-block';
+        }
+    }
+    
+    // Log out
+    function logOut() {
+        currentUser = null;
+        updateAuthUI();
+        alert('You have been logged out.');
+    }
+    
+    // Show Login Modal
+    function showLoginModal() {
+        loginModal.classList.add('active');
+        overlay.classList.add('active');
+    }
+    
+    // Show Signup Modal
+    function showSignupModal() {
+        signupModal.classList.add('active');
+        overlay.classList.add('active');
+    }
+    
+    // Close Modals
+    function closeModals() {
+        loginModal.classList.remove('active');
+        signupModal.classList.remove('active');
+        demoModal.classList.remove('active');
+        overlay.classList.remove('active');
+    }
+    
+    // Show Demo
+    function showDemo(button) {
+        const courseCard = button.closest('.course-card');
+        const videoId = courseCard.dataset.videoId;
+        demoVideo.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        demoModal.classList.add('active');
+        overlay.classList.add('active');
+    }
+    
+    // Show Featured Demo
+    function showFeaturedDemo() {
+        demoVideo.src = `https://www.youtube.com/embed/Mc13Z2gboEk?autoplay=1`;
+        demoModal.classList.add('active');
+        overlay.classList.add('active');
+    }
+    
+    // Add to Cart
+    function addToCart(button) {
+        if (!currentUser) {
+            alert('Please sign in to add courses to your cart.');
+            showLoginModal();
+            return;
+        }
+        
+        const courseCard = button.closest('.course-card');
+        const title = courseCard.dataset.title;
+        const price = parseFloat(courseCard.dataset.price);
+        const image = courseCard.querySelector('.course-image').src;
+        
+        const item = { title, price, image };
+        cart.push(item);
+        
+        updateCartUI();
+        alert(`${title} has been added to your cart!`);
+    }
+    
+    // Add Featured to Cart
+    function addFeaturedToCart() {
+        if (!currentUser) {
+            alert('Please sign in to add courses to your cart.');
+            showLoginModal();
+            return;
+        }
+        
+        const title = 'The Ultimate Godot 4.0 Masterclass';
+        const price = 89.99;
+        const image = 'https://img.youtube.com/vi/Mc13Z2gboEk/maxresdefault.jpg';
+        
+        const item = { title, price, image };
+        cart.push(item);
+        
+        updateCartUI();
+        alert(`${title} has been added to your cart!`);
+    }
+    
+    // Add to Wishlist
+    function addToWishlist(button) {
+        if (!currentUser) {
+            alert('Please sign in to add courses to your wishlist.');
+            showLoginModal();
+            return;
+        }
+        
+        const courseCard = button.closest('.course-card');
+        const title = courseCard.dataset.title;
+        const price = parseFloat(courseCard.dataset.price);
+        const image = courseCard.querySelector('.course-image').src;
+        
+        const item = { title, price, image };
+        wishlist.push(item);
+        
+        updateWishlistUI();
+        alert(`${title} has been added to your wishlist!`);
+    }
+    
+    // Update Cart UI
+    function updateCartUI() {
+        cartContent.innerHTML = '';
+        let total = 0;
+        
+        cart.forEach((item, index) => {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'sidebar-item';
+            itemElement.innerHTML = `
+                <img src="${item.image}" alt="${item.title}">
+                <div class="sidebar-item-info">
+                    <h4>${item.title}</h4>
+                    <p>$${item.price.toFixed(2)}</p>
+                </div>
+                <button class="btn" onclick="removeFromCart(${index})" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">Remove</button>
+            `;
+            cartContent.appendChild(itemElement);
+            total += item.price;
+        });
+        
+        cartCount.textContent = cart.length;
+        cartTotal.textContent = total.toFixed(2);
+    }
+    
+    // Update Wishlist UI
+    function updateWishlistUI() {
+        wishlistContent.innerHTML = '';
+        
+        wishlist.forEach((item, index) => {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'sidebar-item';
+            itemElement.innerHTML = `
+                <img src="${item.image}" alt="${item.title}">
+                <div class="sidebar-item-info">
+                    <h4>${item.title}</h4>
+                    <p>$${item.price.toFixed(2)}</p>
+                </div>
+                <button class="btn" onclick="removeFromWishlist(${index})" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">Remove</button>
+            `;
+            wishlistContent.appendChild(itemElement);
+        });
+        
+        wishlistCount.textContent = wishlist.length;
+    }
+    
+    // Remove from Cart
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCartUI();
+    }
+    
+    // Remove from Wishlist
+    function removeFromWishlist(index) {
+        wishlist.splice(index, 1);
+        updateWishlistUI();
+    }
+    
+    // Toggle Cart Sidebar
+    function toggleCart() {
+        if (!currentUser) {
+            alert('Please sign in to view your cart.');
+            showLoginModal();
+            return;
+        }
+        cartSidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }
+    
+    // Toggle Wishlist Sidebar
+    function toggleWishlist() {
+        if (!currentUser) {
+            alert('Please sign in to view your wishlist.');
+            showLoginModal();
+            return;
+        }
+        wishlistSidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }
+    
+    // Donate Function
+    function donate(amount) {
+        if (!currentUser) {
+            alert('Please sign in to make a donation.');
+            showLoginModal();
+            return;
+        }
+        alert(`Thank you for your donation of $${amount}! Your support helps us continue creating great content.`);
+    }
+    
+    // Show Custom Donation
+    function showCustomDonation() {
+        const amount = prompt('Enter your custom donation amount:');
+        if (amount && !isNaN(amount) && amount > 0) {
+            donate(parseFloat(amount));
+        } else {
+            alert('Please enter a valid amount.');
+        }
+    }
+    
+    // Checkout Function
+    function checkout() {
+        if (cart.length === 0) {
+            alert('Your cart is empty!');
+            return;
+        }
+        alert(`Proceeding to checkout. Total: $${cartTotal.textContent}`);
+        // In a real app, you would redirect to a payment gateway here
+    }
+    
+    // Event Listeners
+    if (loginBtn) loginBtn.addEventListener('click', showLoginModal);
+    if (signupBtn) signupBtn.addEventListener('click', showSignupModal);
+    userProfile.addEventListener('click', () => {
+        if (currentUser) {
+            const action = confirm('Do you want to log out?');
+            if (action) logOut();
+        } else {
+            showLoginModal();
+        }
+    });
+    loginModalClose.addEventListener('click', closeModals);
+    signupModalClose.addEventListener('click', closeModals);
+    demoModalClose.addEventListener('click', closeModals);
+    cartToggle.addEventListener('click', toggleCart);
+    wishlistToggle.addEventListener('click', toggleWishlist);
+    cartClose.addEventListener('click', toggleCart);
+    wishlistClose.addEventListener('click', toggleWishlist);
+    overlay.addEventListener('click', closeModals);
+    checkoutBtn.addEventListener('click', checkout);
+    
+    // Close modals when clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            closeModals();
+        }
+    });
+    
+    // Initialize Google Sign-In buttons
+    if (googleLoginBtn) {
+        googleLoginBtn.addEventListener('click', () => {
+            // This will be handled by the Google API
+        });
+    }
+    
+    if (googleSignupBtn) {
+        googleSignupBtn.addEventListener('click', () => {
+            // This will be handled by the Google API
+        });
+    }
+    
+    // Make functions globally available
+    window.addToCart = addToCart;
+    window.addToWishlist = addToWishlist;
+    window.showDemo = showDemo;
+    window.showFeaturedDemo = showFeaturedDemo;
+    window.addFeaturedToCart = addFeaturedToCart;
+    window.removeFromCart = removeFromCart;
+    window.removeFromWishlist = removeFromWishlist;
+    window.donate = donate;
+    window.showCustomDonation = showCustomDonation;
+    window.logOut = logOut;
+    
+    // Tab functionality
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+    
+    // Animate elements on scroll
+    const animateOnScroll = () => {
+        const elements = document.querySelectorAll('.course-card, .instructor-card, .testimonial-card, .featured-course, .learning-path-card, .achievement-card');
+        elements.forEach(el => {
+            const elementPosition = el.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.3;
+            if (elementPosition < screenPosition) {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }
+        });
+    };
+    
+    // Set initial state for animations
+    document.querySelectorAll('.course-card, .instructor-card, .testimonial-card, .featured-course, .learning-path-card, .achievement-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    });
+    
+    window.addEventListener('scroll', animateOnScroll);
+    window.addEventListener('load', animateOnScroll);
+    
+    // Trigger animations on load
+    window.addEventListener('load', () => {
+        document.querySelectorAll('.hero-container, .section-header, .categories-grid, .community-container').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    });
+</script>
+
+</body> </html>
